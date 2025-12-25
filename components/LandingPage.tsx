@@ -22,6 +22,9 @@ export default function LandingPage() {
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [selectedFeature, setSelectedFeature] = useState<number | null>(null);
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<number | null>(null);
+  const [selectedStep, setSelectedStep] = useState<number | null>(null);
+  const [selectedInsight, setSelectedInsight] = useState<string | null>(null);
+  const [selectedTestimonial, setSelectedTestimonial] = useState<number | null>(null);
 
   // Smooth scroll to section
   const scrollToSection = (sectionId: string) => {
@@ -399,8 +402,17 @@ export default function LandingPage() {
 
               <div className="grid md:grid-cols-2 gap-8 mb-12">
                 <button 
-                  onClick={() => scrollToSection('case-studies')}
-                  className="bg-slate-800/50 backdrop-blur border border-purple-500/20 rounded-2xl p-8 hover:border-purple-500/50 hover:bg-slate-800/70 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-left group"
+                  onClick={() => {
+                    setSelectedInsight(selectedInsight === 'topics' ? null : 'topics');
+                    if (selectedInsight !== 'topics') {
+                      scrollToSection('case-studies');
+                    }
+                  }}
+                  className={`bg-slate-800/50 backdrop-blur border rounded-2xl p-8 transition-all duration-300 cursor-pointer text-left group ${
+                    selectedInsight === 'topics'
+                      ? 'border-purple-500/80 bg-slate-800/70 shadow-lg shadow-purple-500/30 scale-105' 
+                      : 'border-purple-500/20 hover:border-purple-500/50 hover:bg-slate-800/70 hover:scale-105 active:scale-95'
+                  }`}
                 >
                   <h3 className="text-2xl font-bold text-white mb-6 group-hover:text-purple-300 transition-colors">Topic Distribution</h3>
                   <div className="space-y-4">
@@ -425,14 +437,42 @@ export default function LandingPage() {
                       </div>
                     ))}
                   </div>
+                  {selectedInsight === 'topics' && (
+                    <div className="mt-4 p-4 bg-purple-900/30 rounded-lg border border-purple-500/30">
+                      <p className="text-purple-200 text-sm mb-2 font-semibold">📊 Topic Details:</p>
+                      <ul className="space-y-2 text-purple-200 text-sm">
+                        {[
+                          { label: 'Regulatory Fatigue (35%)', detail: 'Includes licensing challenges, bed fee increases ($450), WAC/RCW updates, and compliance complexity' },
+                          { label: 'Staffing Crisis (25%)', detail: 'Covers HCA recruitment, SB 5672 implementation, certification delays, and retention issues' },
+                          { label: 'Financial Viability (20%)', detail: 'Addresses Medicaid rate gaps, budget deficits, property conversion costs, and margin pressures' },
+                          { label: 'Community Trust (12%)', detail: 'Focuses on family satisfaction, communication effectiveness, reputation management, and relationships' },
+                          { label: 'Tech Barriers (8%)', detail: 'Explores technology adoption challenges, digital transformation resistance, and automation opportunities' },
+                        ].map((item, idx) => (
+                          <li key={idx} className="flex items-start space-x-2">
+                            <span className="text-purple-400">•</span>
+                            <span><strong>{item.label}:</strong> {item.detail}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                   <div className="mt-4 text-xs text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                    Click to see case studies →
+                    Click for details →
                   </div>
                 </button>
 
                 <button 
-                  onClick={() => scrollToSection('how-it-works')}
-                  className="bg-slate-800/50 backdrop-blur border border-purple-500/20 rounded-2xl p-8 hover:border-purple-500/50 hover:bg-slate-800/70 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-left group"
+                  onClick={() => {
+                    setSelectedInsight(selectedInsight === 'bottlenecks' ? null : 'bottlenecks');
+                    if (selectedInsight !== 'bottlenecks') {
+                      scrollToSection('how-it-works');
+                    }
+                  }}
+                  className={`bg-slate-800/50 backdrop-blur border rounded-2xl p-8 transition-all duration-300 cursor-pointer text-left group ${
+                    selectedInsight === 'bottlenecks'
+                      ? 'border-purple-500/80 bg-slate-800/70 shadow-lg shadow-purple-500/30 scale-105' 
+                      : 'border-purple-500/20 hover:border-purple-500/50 hover:bg-slate-800/70 hover:scale-105 active:scale-95'
+                  }`}
                 >
                   <h3 className="text-2xl font-bold text-white mb-6 group-hover:text-purple-300 transition-colors">Bottleneck Scores</h3>
                   <div className="space-y-6">
@@ -457,8 +497,27 @@ export default function LandingPage() {
                       </div>
                     ))}
                   </div>
+                  {selectedInsight === 'bottlenecks' && (
+                    <div className="mt-4 p-4 bg-purple-900/30 rounded-lg border border-purple-500/30">
+                      <p className="text-purple-200 text-sm mb-3 font-semibold">📈 Score Interpretation:</p>
+                      <ul className="space-y-2 text-purple-200 text-sm">
+                        {[
+                          { label: 'Regulatory (95/100)', detail: 'Critical - Immediate action required. Measures licensing pressure, compliance complexity, and regulatory changes impact.' },
+                          { label: 'Staffing (85/100)', detail: 'High - Address soon. Tracks recruitment difficulties, retention rates, and certification bottlenecks.' },
+                          { label: 'Financial (75/100)', detail: 'High - Monitor closely. Evaluates rate adequacy, cost pressures, and profitability concerns.' },
+                          { label: 'Community (60/100)', detail: 'Medium - Plan improvements. Assesses trust levels, satisfaction metrics, and relationship quality.' },
+                          { label: 'Tech (30/100)', detail: 'Low - Opportunity area. Evaluates technology adoption, digital readiness, and automation potential.' },
+                        ].map((item, idx) => (
+                          <li key={idx} className="flex items-start space-x-2">
+                            <span className="text-purple-400">•</span>
+                            <span><strong>{item.label}:</strong> {item.detail}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                   <div className="mt-4 text-xs text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                    Click to learn how it works →
+                    Click for details →
                   </div>
                 </button>
               </div>
@@ -487,7 +546,7 @@ export default function LandingPage() {
                     <div
                       key={study.id}
                       onClick={() => setSelectedCaseStudy(selectedCaseStudy === study.id ? null : study.id)}
-                      className={`bg-slate-800/50 backdrop-blur border rounded-2xl p-8 md:p-12 transition-all duration-300 cursor-pointer ${
+                      className={`bg-slate-800/50 backdrop-blur border rounded-2xl p-8 md:p-12 transition-all duration-300 cursor-pointer group ${
                         isSelected 
                           ? 'border-purple-500/80 bg-slate-800/70 shadow-lg shadow-purple-500/30 scale-[1.01]' 
                           : 'border-purple-500/20 hover:border-purple-500/50 hover:scale-[1.005]'
@@ -572,6 +631,11 @@ export default function LandingPage() {
                         </div>
                       </div>
 
+                      {/* Click for details hint */}
+                      <div className="mt-6 text-xs text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {isSelected ? 'Click again to collapse details' : 'Click for details →'}
+                      </div>
+
                       {/* Divider */}
                       {index < caseStudies.length - 1 && (
                         <div className="border-t border-purple-500/20 pt-8 mt-8">
@@ -626,33 +690,61 @@ export default function LandingPage() {
                     role: 'AFH Provider',
                     quote: 'Saves me 2+ hours daily. The bottleneck analysis is invaluable.',
                     icon: UserGroupIcon,
+                    caseStudy: 1,
+                    details: 'Sarah is an experienced AFH provider operating multiple facilities in the Seattle area. She has been in the industry for over 10 years and specializes in high-acuity resident care. Her success with AFH Omni-Pulse has helped her avoid regulatory citations and improve operational efficiency significantly.'
                   },
                   {
                     name: 'Michael T.',
                     role: 'Facility Owner',
                     quote: 'Finally, a tool that actually understands the AFH ecosystem.',
                     icon: ChartBarIcon,
+                    caseStudy: 3,
+                    details: 'Michael owns and operates a mid-sized AFH facility in Tacoma. He was struggling with staffing challenges that were impacting resident care quality. Through AFH Omni-Pulse, he identified specific solutions that reduced turnover by 35% and improved staff retention dramatically.'
                   },
                   {
                     name: 'Jennifer L.',
                     role: 'Investor',
                     quote: 'Provides the market intelligence I need for better decisions.',
                     icon: RocketLaunchIcon,
+                    caseStudy: 2,
+                    details: 'Jennifer is a real estate investor focused on healthcare properties. She uses AFH Omni-Pulse to evaluate market conditions and identify investment opportunities. The bottleneck analysis helps her make data-driven decisions, resulting in an 18% ROI improvement on her investments.'
                   },
                 ].map((testimonial, index) => {
                   const Icon = testimonial.icon;
+                  const isSelected = selectedTestimonial === index;
                   return (
-                    <div
+                    <button
                       key={index}
-                      className="bg-slate-800/50 backdrop-blur border border-purple-500/20 rounded-2xl p-8 hover:border-purple-500/50 transition-all duration-300"
+                      onClick={() => {
+                        setSelectedTestimonial(isSelected ? null : index);
+                        if (!isSelected) {
+                          scrollToSection('case-studies');
+                          setTimeout(() => setSelectedCaseStudy(testimonial.caseStudy), 500);
+                        }
+                      }}
+                      className={`bg-slate-800/50 backdrop-blur border rounded-2xl p-8 transition-all duration-300 cursor-pointer text-left group ${
+                        isSelected
+                          ? 'border-purple-500/80 bg-slate-800/70 shadow-lg shadow-purple-500/30 scale-105' 
+                          : 'border-purple-500/20 hover:border-purple-500/50 hover:bg-slate-800/70 hover:scale-105 active:scale-95'
+                      }`}
                     >
-                      <Icon className="w-12 h-12 text-purple-400 mb-4" />
-                      <p className="text-gray-300 text-lg mb-6 italic">&quot;{testimonial.quote}&quot;</p>
+                      <Icon className="w-12 h-12 text-purple-400 mb-4 group-hover:text-purple-300 transition-colors" />
+                      <p className="text-gray-300 text-lg mb-6 italic group-hover:text-white transition-colors">&quot;{testimonial.quote}&quot;</p>
                       <div>
-                        <div className="font-bold text-white">{testimonial.name}</div>
-                        <div className="text-purple-400 text-sm">{testimonial.role}</div>
+                        <div className="font-bold text-white group-hover:text-purple-300 transition-colors">{testimonial.name}</div>
+                        <div className="text-purple-400 text-sm group-hover:text-purple-300 transition-colors">{testimonial.role}</div>
                       </div>
-                    </div>
+                      {isSelected && (
+                        <div className="mt-4 p-4 bg-purple-900/30 rounded-lg border border-purple-500/30">
+                          <p className="text-purple-200 text-sm">
+                            💡 <strong>About {testimonial.name}:</strong> {testimonial.details}
+                          </p>
+                        </div>
+                      )}
+                      <div className="mt-4 text-xs text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                        Click for details →
+                      </div>
+                    </button>
                   );
                 })}
               </div>
