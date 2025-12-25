@@ -308,7 +308,7 @@ export default function LandingPage() {
               <div className="space-y-8">
                 {[
                   { step: 1, title: 'Configure Sources', desc: 'Add Facebook groups, forums, and channels to monitor' },
-                  { step: 2, title: 'One-Click Analysis', desc: 'Click "Analyze VOA Now" - that\'s it!' },
+                  { step: 2, title: 'One-Click Analysis', desc: 'Click &quot;Analyze VOA Now&quot; - that&apos;s it!' },
                   { step: 3, title: 'AI Processing', desc: 'GPT-4o analyzes thousands of posts in seconds' },
                   { step: 4, title: 'Get Insights', desc: 'Review topics, bottlenecks, and solutions' },
                   { step: 5, title: 'Take Action', desc: 'Implement recommended solutions with guidance' },
@@ -568,7 +568,7 @@ export default function LandingPage() {
                       className="bg-slate-800/50 backdrop-blur border border-purple-500/20 rounded-2xl p-8 hover:border-purple-500/50 transition-all duration-300"
                     >
                       <Icon className="w-12 h-12 text-purple-400 mb-4" />
-                      <p className="text-gray-300 text-lg mb-6 italic">"{testimonial.quote}"</p>
+                      <p className="text-gray-300 text-lg mb-6 italic">&quot;{testimonial.quote}&quot;</p>
                       <div>
                         <div className="font-bold text-white">{testimonial.name}</div>
                         <div className="text-purple-400 text-sm">{testimonial.role}</div>
