@@ -19,6 +19,40 @@ import {
 export default function LandingPage() {
   const [activeSection, setActiveSection] = useState('home');
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [showDemoModal, setShowDemoModal] = useState(false);
+  const [selectedFeature, setSelectedFeature] = useState<number | null>(null);
+  const [selectedCaseStudy, setSelectedCaseStudy] = useState<number | null>(null);
+
+  // Smooth scroll to section
+  const scrollToSection = (sectionId: string) => {
+    setActiveSection(sectionId);
+    // Smooth scroll effect
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
+
+  // Handle CTA button clicks
+  const handleGetStarted = () => {
+    scrollToSection('features');
+    // Could also open a signup modal or redirect
+  };
+
+  const handleWatchDemo = () => {
+    setShowDemoModal(true);
+  };
+
+  // Handle stat card clicks - navigate to relevant sections
+  const handleStatClick = (index: number) => {
+    const statSections = ['insights', 'features', 'insights', 'how-it-works'];
+    scrollToSection(statSections[index] || 'insights');
+  };
+
+  // Handle feature card clicks
+  const handleFeatureClick = (index: number) => {
+    setSelectedFeature(selectedFeature === index ? null : index);
+    scrollToSection('features');
+  };
 
   const features = [
     {
@@ -230,12 +264,18 @@ export default function LandingPage() {
 
               {/* CTA Buttons */}
               <div className="flex flex-wrap gap-4 justify-center mb-16">
-                <button className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-white font-semibold text-lg shadow-2xl shadow-purple-500/50 hover:shadow-purple-500/70 transition-all duration-300 hover:scale-105 flex items-center space-x-2">
+                <button 
+                  onClick={handleGetStarted}
+                  className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-white font-semibold text-lg shadow-2xl shadow-purple-500/50 hover:shadow-purple-500/70 transition-all duration-300 hover:scale-105 active:scale-95 flex items-center space-x-2 cursor-pointer"
+                >
                   <RocketLaunchIcon className="w-5 h-5" />
                   <span>Get Started Free</span>
                   <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
-                <button className="px-8 py-4 bg-slate-800/50 backdrop-blur border border-purple-500/30 rounded-xl text-purple-300 font-semibold text-lg hover:bg-slate-800/70 transition-all duration-300 hover:scale-105">
+                <button 
+                  onClick={handleWatchDemo}
+                  className="px-8 py-4 bg-slate-800/50 backdrop-blur border border-purple-500/30 rounded-xl text-purple-300 font-semibold text-lg hover:bg-slate-800/70 hover:border-purple-500/50 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+                >
                   Watch Demo
                 </button>
               </div>
@@ -245,14 +285,16 @@ export default function LandingPage() {
                 {stats.map((stat, index) => {
                   const Icon = stat.icon;
                   return (
-                    <div
+                    <button
                       key={index}
-                      className="bg-slate-800/50 backdrop-blur border border-purple-500/20 rounded-xl p-6 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
+                      onClick={() => handleStatClick(index)}
+                      className="bg-slate-800/50 backdrop-blur border border-purple-500/20 rounded-xl p-6 hover:border-purple-500/50 hover:bg-slate-800/70 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-left group"
                     >
-                      <Icon className="w-8 h-8 text-purple-400 mb-3" />
-                      <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
-                      <div className="text-sm text-gray-400">{stat.label}</div>
-                    </div>
+                      <Icon className="w-8 h-8 text-purple-400 mb-3 group-hover:text-purple-300 transition-colors" />
+                      <div className="text-3xl font-bold text-white mb-1 group-hover:text-purple-300 transition-colors">{stat.value}</div>
+                      <div className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">{stat.label}</div>
+                      <div className="mt-2 text-xs text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">Click to learn more →</div>
+                    </button>
                   );
                 })}
               </div>
@@ -276,17 +318,33 @@ export default function LandingPage() {
               <div className="grid md:grid-cols-2 gap-8">
                 {features.map((feature, index) => {
                   const Icon = feature.icon;
+                  const isSelected = selectedFeature === index;
                   return (
-                    <div
+                    <button
                       key={index}
-                      className="group relative bg-slate-800/50 backdrop-blur border border-purple-500/20 rounded-2xl p-8 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
+                      onClick={() => handleFeatureClick(index)}
+                      className={`group relative bg-slate-800/50 backdrop-blur border rounded-2xl p-8 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-left ${
+                        isSelected 
+                          ? 'border-purple-500/80 bg-slate-800/70 shadow-lg shadow-purple-500/30' 
+                          : 'border-purple-500/20 hover:border-purple-500/50'
+                      }`}
                     >
-                      <div className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                      <div className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform ${isSelected ? 'scale-110' : ''}`}>
                         <Icon className="w-8 h-8 text-white" />
                       </div>
-                      <h3 className="text-2xl font-bold text-white mb-3">{feature.title}</h3>
-                      <p className="text-gray-400 text-lg">{feature.description}</p>
-                    </div>
+                      <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-purple-300 transition-colors">{feature.title}</h3>
+                      <p className="text-gray-400 text-lg group-hover:text-gray-300 transition-colors">{feature.description}</p>
+                      {isSelected && (
+                        <div className="mt-4 p-4 bg-purple-900/30 rounded-lg border border-purple-500/30">
+                          <p className="text-purple-200 text-sm">
+                            💡 This feature uses advanced AI to analyze thousands of posts and provide actionable insights in seconds. Click again to close.
+                          </p>
+                        </div>
+                      )}
+                      <div className="mt-3 text-xs text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                        Click for details →
+                      </div>
+                    </button>
                   );
                 })}
               </div>
@@ -340,8 +398,11 @@ export default function LandingPage() {
               </div>
 
               <div className="grid md:grid-cols-2 gap-8 mb-12">
-                <div className="bg-slate-800/50 backdrop-blur border border-purple-500/20 rounded-2xl p-8">
-                  <h3 className="text-2xl font-bold text-white mb-6">Topic Distribution</h3>
+                <button 
+                  onClick={() => scrollToSection('case-studies')}
+                  className="bg-slate-800/50 backdrop-blur border border-purple-500/20 rounded-2xl p-8 hover:border-purple-500/50 hover:bg-slate-800/70 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-left group"
+                >
+                  <h3 className="text-2xl font-bold text-white mb-6 group-hover:text-purple-300 transition-colors">Topic Distribution</h3>
                   <div className="space-y-4">
                     {[
                       { label: 'Regulatory Fatigue', value: 35, color: 'bg-red-500' },
@@ -364,10 +425,16 @@ export default function LandingPage() {
                       </div>
                     ))}
                   </div>
-                </div>
+                  <div className="mt-4 text-xs text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    Click to see case studies →
+                  </div>
+                </button>
 
-                <div className="bg-slate-800/50 backdrop-blur border border-purple-500/20 rounded-2xl p-8">
-                  <h3 className="text-2xl font-bold text-white mb-6">Bottleneck Scores</h3>
+                <button 
+                  onClick={() => scrollToSection('how-it-works')}
+                  className="bg-slate-800/50 backdrop-blur border border-purple-500/20 rounded-2xl p-8 hover:border-purple-500/50 hover:bg-slate-800/70 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-left group"
+                >
+                  <h3 className="text-2xl font-bold text-white mb-6 group-hover:text-purple-300 transition-colors">Bottleneck Scores</h3>
                   <div className="space-y-6">
                     {[
                       { label: 'Regulatory', value: 95, color: 'text-red-400' },
@@ -390,7 +457,10 @@ export default function LandingPage() {
                       </div>
                     ))}
                   </div>
-                </div>
+                  <div className="mt-4 text-xs text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    Click to learn how it works →
+                  </div>
+                </button>
               </div>
             </div>
           </section>
@@ -412,10 +482,16 @@ export default function LandingPage() {
               <div className="space-y-12">
                 {caseStudies.map((study, index) => {
                   const Icon = study.icon;
+                  const isSelected = selectedCaseStudy === study.id;
                   return (
                     <div
                       key={study.id}
-                      className="bg-slate-800/50 backdrop-blur border border-purple-500/20 rounded-2xl p-8 md:p-12 hover:border-purple-500/50 transition-all duration-300"
+                      onClick={() => setSelectedCaseStudy(selectedCaseStudy === study.id ? null : study.id)}
+                      className={`bg-slate-800/50 backdrop-blur border rounded-2xl p-8 md:p-12 transition-all duration-300 cursor-pointer ${
+                        isSelected 
+                          ? 'border-purple-500/80 bg-slate-800/70 shadow-lg shadow-purple-500/30 scale-[1.01]' 
+                          : 'border-purple-500/20 hover:border-purple-500/50 hover:scale-[1.005]'
+                      }`}
                     >
                       {/* Header */}
                       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
@@ -498,7 +574,7 @@ export default function LandingPage() {
 
                       {/* Divider */}
                       {index < caseStudies.length - 1 && (
-                        <div className="border-t border-purple-500/20 pt-8">
+                        <div className="border-t border-purple-500/20 pt-8 mt-8">
                           <div className="flex justify-center">
                             <div className="w-1 h-16 bg-gradient-to-b from-purple-500 to-blue-500 rounded-full"></div>
                           </div>
@@ -518,7 +594,10 @@ export default function LandingPage() {
                   <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
                     Join these successful AFH professionals and transform your operations with AI-powered ecosystem intelligence.
                   </p>
-                  <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-white font-semibold text-lg shadow-2xl shadow-purple-500/50 hover:shadow-purple-500/70 transition-all duration-300 hover:scale-105 flex items-center space-x-2 mx-auto">
+                  <button 
+                    onClick={handleGetStarted}
+                    className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-white font-semibold text-lg shadow-2xl shadow-purple-500/50 hover:shadow-purple-500/70 transition-all duration-300 hover:scale-105 active:scale-95 flex items-center space-x-2 mx-auto cursor-pointer"
+                  >
                     <RocketLaunchIcon className="w-5 h-5" />
                     <span>Start Your Success Story</span>
                     <ArrowRightIcon className="w-5 h-5" />
@@ -581,6 +660,83 @@ export default function LandingPage() {
           </section>
         )}
       </main>
+
+      {/* Demo Modal */}
+      {showDemoModal && (
+        <div 
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={() => setShowDemoModal(false)}
+        >
+          <div 
+            className="bg-slate-800 rounded-2xl border border-purple-500/30 p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-3xl font-bold text-white">AFH Omni-Pulse Demo</h2>
+              <button
+                onClick={() => setShowDemoModal(false)}
+                className="text-gray-400 hover:text-white transition-colors text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="bg-slate-900 rounded-xl p-8 mb-6">
+              <div className="aspect-video bg-gradient-to-br from-purple-900 to-blue-900 rounded-lg flex items-center justify-center">
+                <div className="text-center">
+                  <RocketLaunchIcon className="w-20 h-20 text-purple-400 mx-auto mb-4" />
+                  <p className="text-white text-xl mb-2">Demo Video Coming Soon</p>
+                  <p className="text-gray-400">In the meantime, explore the features below!</p>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold text-white mb-4">Quick Overview:</h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="bg-slate-700/50 p-4 rounded-lg">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <BoltIcon className="w-5 h-5 text-purple-400" />
+                    <span className="text-white font-semibold">One-Click Analysis</span>
+                  </div>
+                  <p className="text-gray-300 text-sm">Click &quot;Analyze VOA Now&quot; to get instant insights</p>
+                </div>
+                <div className="bg-slate-700/50 p-4 rounded-lg">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <ChartBarIcon className="w-5 h-5 text-purple-400" />
+                    <span className="text-white font-semibold">AI-Powered Results</span>
+                  </div>
+                  <p className="text-gray-300 text-sm">Get comprehensive analysis in 30 seconds</p>
+                </div>
+                <div className="bg-slate-700/50 p-4 rounded-lg">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <SparklesIcon className="w-5 h-5 text-purple-400" />
+                    <span className="text-white font-semibold">Visual Analytics</span>
+                  </div>
+                  <p className="text-gray-300 text-sm">Interactive charts and data tables</p>
+                </div>
+                <div className="bg-slate-700/50 p-4 rounded-lg">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <ShieldCheckIcon className="w-5 h-5 text-purple-400" />
+                    <span className="text-white font-semibold">Actionable Solutions</span>
+                  </div>
+                  <p className="text-gray-300 text-sm">Specific recommendations with contacts</p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-6 flex justify-end">
+              <button
+                onClick={() => {
+                  setShowDemoModal(false);
+                  handleGetStarted();
+                }}
+                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-white font-semibold hover:scale-105 transition-all duration-300 flex items-center space-x-2"
+              >
+                <span>Get Started</span>
+                <ArrowRightIcon className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
