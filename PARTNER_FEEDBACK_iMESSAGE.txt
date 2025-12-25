@@ -1,0 +1,25 @@
+Hi [Name]! 👋
+
+I've been working on a new project called AFH Omni-Pulse - an AI-powered system that monitors the AFH ecosystem and provides insights in 30 seconds.
+
+Would love your feedback on the landing page and features! 
+
+View it here:
+https://github.com/henrynkoh/AFHvoaanalysis
+
+What I need feedback on:
+• Design & user experience
+• Content & messaging  
+• Features & functionality
+• What's missing or could be improved
+
+Key features:
+✅ One-click ecosystem analysis
+✅ AI-powered topic categorization
+✅ Bottleneck visualization
+✅ Actionable solutions with contacts
+
+Would appreciate your thoughts by [date] if possible! Happy to discuss over a call too.
+
+Thanks! 🙏
+
