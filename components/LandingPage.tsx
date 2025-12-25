@@ -59,7 +59,77 @@ export default function LandingPage() {
     { id: 'features', label: 'Features', icon: SparklesIcon },
     { id: 'how-it-works', label: 'How It Works', icon: BoltIcon },
     { id: 'insights', label: 'Insights', icon: ChartBarIcon },
+    { id: 'case-studies', label: 'Case Studies', icon: CheckCircleIcon },
     { id: 'testimonials', label: 'Testimonials', icon: UserGroupIcon },
+  ];
+
+  const caseStudies = [
+    {
+      id: 1,
+      title: 'Regulatory Compliance Success',
+      client: 'Sarah M., AFH Provider',
+      location: 'Seattle, WA',
+      challenge: 'Facing regulatory fatigue with 95/100 bottleneck score. Struggling to keep up with WAC/RCW updates and bed fee changes. Risk of citations due to compliance gaps.',
+      solution: 'Used AFH Omni-Pulse to identify regulatory fatigue as top bottleneck. Implemented AI Compliance Copilot for instant WAC/RCW queries. Contacted DSHS for guidance. Used GPT-4o Vision to scan facility photos for violations.',
+      results: [
+        'Regulatory bottleneck improved from 95 to 85 in 3 months',
+        'Zero citations received after implementation',
+        'Compliance research time reduced from 2 hours to 15 minutes weekly',
+        'Confidence in regulatory readiness increased significantly'
+      ],
+      metrics: {
+        timeSaved: '1.75 hours/week',
+        citationsAvoided: '3 potential citations',
+        costSaved: '$4,500+',
+        improvement: '10 points'
+      },
+      color: 'from-red-500 to-orange-500',
+      icon: ShieldCheckIcon,
+    },
+    {
+      id: 2,
+      title: 'Investment Decision Intelligence',
+      client: 'Jennifer L., Real Estate Investor',
+      location: 'Bellevue, WA',
+      challenge: 'Needed market intelligence to evaluate AFH property investments. Unclear about ecosystem health, regulatory environment, and operational risks in target markets.',
+      solution: 'Leveraged AFH Omni-Pulse bottleneck analysis to identify markets with lower regulatory and staffing challenges. Used topic distribution data to understand market sentiment. Tracked financial viability trends across regions.',
+      results: [
+        'Identified 3 high-opportunity markets with low bottleneck scores',
+        'Avoided 2 markets with critical regulatory pressures',
+        'ROI improved by 18% through data-driven decisions',
+        'Investment confidence increased with objective metrics'
+      ],
+      metrics: {
+        roiImprovement: '18%',
+        marketsAnalyzed: '8 markets',
+        investmentsMade: '3 properties',
+        riskAvoided: '2 high-risk markets'
+      },
+      color: 'from-blue-500 to-cyan-500',
+      icon: ChartBarIcon,
+    },
+    {
+      id: 3,
+      title: 'Staffing Crisis Resolution',
+      client: 'Michael T., Facility Owner',
+      location: 'Tacoma, WA',
+      challenge: 'Staffing bottleneck at 85/100. High HCA turnover, certification delays, and recruitment difficulties. Spending 3+ hours daily on staffing issues.',
+      solution: 'Analyzed staffing crisis through VOA monitoring. Discovered SB 5672 implementation challenges affecting industry. Implemented automated certification tracking with NLP Agents. Contacted WA Dept of Health for guidance. Developed retention strategies based on community insights.',
+      results: [
+        'Staffing bottleneck reduced from 85 to 70 in 4 months',
+        'HCA turnover decreased by 35%',
+        'Certification delays reduced by 40%',
+        'Recruitment time cut in half'
+      ],
+      metrics: {
+        turnoverReduction: '35%',
+        timeSaved: '2.5 hours/day',
+        certificationImprovement: '40%',
+        costSaved: '$12,000+/year'
+      },
+      color: 'from-purple-500 to-pink-500',
+      icon: UserGroupIcon,
+    },
   ];
 
   return (
@@ -320,6 +390,139 @@ export default function LandingPage() {
                       </div>
                     ))}
                   </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Case Studies Section */}
+        {activeSection === 'case-studies' && (
+          <section className="min-h-screen p-8 md:p-12">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
+                  Top 3 Case Studies
+                </h2>
+                <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+                  Real success stories from AFH professionals who transformed their operations using AFH Omni-Pulse
+                </p>
+              </div>
+
+              <div className="space-y-12">
+                {caseStudies.map((study, index) => {
+                  const Icon = study.icon;
+                  return (
+                    <div
+                      key={study.id}
+                      className="bg-slate-800/50 backdrop-blur border border-purple-500/20 rounded-2xl p-8 md:p-12 hover:border-purple-500/50 transition-all duration-300"
+                    >
+                      {/* Header */}
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+                        <div className="flex items-center space-x-4 mb-4 md:mb-0">
+                          <div className={`w-16 h-16 bg-gradient-to-br ${study.color} rounded-xl flex items-center justify-center`}>
+                            <Icon className="w-8 h-8 text-white" />
+                          </div>
+                          <div>
+                            <h3 className="text-3xl font-bold text-white mb-1">{study.title}</h3>
+                            <div className="flex items-center space-x-2 text-gray-400">
+                              <span className="font-semibold">{study.client}</span>
+                              <span>•</span>
+                              <span>{study.location}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="px-4 py-2 bg-purple-900/50 rounded-lg border border-purple-500/30">
+                          <span className="text-purple-300 font-semibold">Case Study #{study.id}</span>
+                        </div>
+                      </div>
+
+                      {/* Challenge */}
+                      <div className="mb-8">
+                        <div className="flex items-center space-x-2 mb-4">
+                          <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                          <h4 className="text-xl font-bold text-white">The Challenge</h4>
+                        </div>
+                        <p className="text-gray-300 text-lg leading-relaxed pl-4 border-l-2 border-red-500/30">
+                          {study.challenge}
+                        </p>
+                      </div>
+
+                      {/* Solution */}
+                      <div className="mb-8">
+                        <div className="flex items-center space-x-2 mb-4">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                          <h4 className="text-xl font-bold text-white">The Solution</h4>
+                        </div>
+                        <p className="text-gray-300 text-lg leading-relaxed pl-4 border-l-2 border-blue-500/30">
+                          {study.solution}
+                        </p>
+                      </div>
+
+                      {/* Results Grid */}
+                      <div className="grid md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                          <h4 className="text-xl font-bold text-white mb-4 flex items-center space-x-2">
+                            <CheckCircleIcon className="w-6 h-6 text-green-400" />
+                            <span>Key Results</span>
+                          </h4>
+                          <ul className="space-y-3">
+                            {study.results.map((result, idx) => (
+                              <li key={idx} className="flex items-start space-x-3">
+                                <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                                <span className="text-gray-300">{result}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <h4 className="text-xl font-bold text-white mb-4 flex items-center space-x-2">
+                            <ChartBarIcon className="w-6 h-6 text-purple-400" />
+                            <span>Measurable Impact</span>
+                          </h4>
+                          <div className="grid grid-cols-2 gap-4">
+                            {Object.entries(study.metrics).map(([key, value], idx) => (
+                              <div
+                                key={idx}
+                                className="bg-slate-700/50 rounded-lg p-4 border border-purple-500/20"
+                              >
+                                <div className="text-sm text-gray-400 mb-1 capitalize">
+                                  {key.replace(/([A-Z])/g, ' $1').trim()}
+                                </div>
+                                <div className="text-2xl font-bold text-white">{value}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Divider */}
+                      {index < caseStudies.length - 1 && (
+                        <div className="border-t border-purple-500/20 pt-8">
+                          <div className="flex justify-center">
+                            <div className="w-1 h-16 bg-gradient-to-b from-purple-500 to-blue-500 rounded-full"></div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* CTA Section */}
+              <div className="mt-16 text-center">
+                <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 backdrop-blur border border-purple-500/30 rounded-2xl p-12">
+                  <h3 className="text-3xl font-bold text-white mb-4">
+                    Ready to Achieve Similar Results?
+                  </h3>
+                  <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
+                    Join these successful AFH professionals and transform your operations with AI-powered ecosystem intelligence.
+                  </p>
+                  <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-white font-semibold text-lg shadow-2xl shadow-purple-500/50 hover:shadow-purple-500/70 transition-all duration-300 hover:scale-105 flex items-center space-x-2 mx-auto">
+                    <RocketLaunchIcon className="w-5 h-5" />
+                    <span>Start Your Success Story</span>
+                    <ArrowRightIcon className="w-5 h-5" />
+                  </button>
                 </div>
               </div>
             </div>
